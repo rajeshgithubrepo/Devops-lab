@@ -8,6 +8,10 @@ Vagrant.configure("2") do |config|
       vb.cpus = 2
     end
     web.vm.provision "shell", path: "scripts/setup_web.sh"
+    web.vm.provision "shell", path: "scripts/setup_docker.sh"
+    web.vm.provision "shell", path: "scripts/setup_minikube.sh"
+    web.vm.provision "shell", path: "scripts/setup_ansible.sh"
+    web.vm.provision "shell", path: "scripts/setup_terraform.sh"
   end
 
   # Define the second VM: Database Server
