@@ -1,0 +1,80 @@
+Changing the prompt name in Linux usually involves modifying the `PS1` environment variable, which defines the appearance of the shell prompt. Here's how you can do it:
+
+### Temporarily Change the Prompt Name
+
+To change the prompt name temporarily (for the current session only), you can simply set the `PS1` variable. Open your terminal and type:
+
+```sh
+PS1='YourCustomPromptName: '
+```
+
+Replace `YourCustomPromptName` with the desired prompt name.
+
+### Permanently Change the Prompt Name
+
+To make the change permanent, you'll need to add the `PS1` assignment to your shell's configuration file. The file to edit depends on the shell you're using:
+
+#### For Bash
+
+1. Open the `~/.bashrc` file in your favorite text editor. For example:
+   ```sh
+   nano ~/.bashrc
+   ```
+
+2. Add the following line to the file:
+   ```sh
+   PS1='YourCustomPromptName: '
+   ```
+
+3. Save the file and exit the editor.
+
+4. Apply the changes by running:
+   ```sh
+   source ~/.bashrc
+   ```
+
+#### For Zsh
+
+1. Open the `~/.zshrc` file in your favorite text editor. For example:
+   ```sh
+   nano ~/.zshrc
+   ```
+
+2. Add the following line to the file:
+   ```sh
+   PS1='YourCustomPromptName: '
+   ```
+
+3. Save the file and exit the editor.
+
+4. Apply the changes by running:
+   ```sh
+   source ~/.zshrc
+   ```
+
+### Customizing the Prompt
+
+You can customize the prompt with various escape sequences to include additional information, such as the current directory, username, hostname, etc. Here are a few examples:
+
+- `\u` - Username
+- `\h` - Hostname
+- `\w` - Current working directory
+- `\t` - Current time
+
+For example, to set the prompt to show the username and current directory, you could use:
+
+```sh
+PS1='\u@\w: '
+```
+
+Adding this to your configuration file will make the change permanent.
+
+### Example with Customization
+
+```sh
+PS1='\u@\h:\w\$ '
+```
+
+This example will set the prompt to display the username, hostname, and current working directory, followed by a dollar sign (`$`).
+
+By modifying the `PS1` variable, you can personalize your shell prompt to suit your preferences.
