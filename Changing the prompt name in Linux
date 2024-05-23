@@ -1,80 +1,151 @@
-Changing the prompt name in Linux usually involves modifying the `PS1` environment variable, which defines the appearance of the shell prompt. Here's how you can do it:
+To provide more depth on customizing the Linux shell prompt, we'll explore various aspects of the `PS1` variable, including escape sequences, colors, conditional content, and examples for different shells.
 
-### Temporarily Change the Prompt Name
+### 1. Escape Sequences
 
-To change the prompt name temporarily (for the current session only), you can simply set the `PS1` variable. Open your terminal and type:
-
-```sh
-PS1='YourCustomPromptName: '
-```
-
-Replace `YourCustomPromptName` with the desired prompt name.
-
-### Permanently Change the Prompt Name
-
-To make the change permanent, you'll need to add the `PS1` assignment to your shell's configuration file. The file to edit depends on the shell you're using:
-
-#### For Bash
-
-1. Open the `~/.bashrc` file in your favorite text editor. For example:
-   ```sh
-   nano ~/.bashrc
-   ```
-
-2. Add the following line to the file:
-   ```sh
-   PS1='YourCustomPromptName: '
-   ```
-
-3. Save the file and exit the editor.
-
-4. Apply the changes by running:
-   ```sh
-   source ~/.bashrc
-   ```
-
-#### For Zsh
-
-1. Open the `~/.zshrc` file in your favorite text editor. For example:
-   ```sh
-   nano ~/.zshrc
-   ```
-
-2. Add the following line to the file:
-   ```sh
-   PS1='YourCustomPromptName: '
-   ```
-
-3. Save the file and exit the editor.
-
-4. Apply the changes by running:
-   ```sh
-   source ~/.zshrc
-   ```
-
-### Customizing the Prompt
-
-You can customize the prompt with various escape sequences to include additional information, such as the current directory, username, hostname, etc. Here are a few examples:
+Here are some common escape sequences used in `PS1`:
 
 - `\u` - Username
-- `\h` - Hostname
+- `\h` - Hostname (up to the first `.`)
+- `\H` - Full hostname
 - `\w` - Current working directory
-- `\t` - Current time
+- `\W` - Basename of the current working directory
+- `\d` - Date (e.g., "Mon Sep 06")
+- `\t` - Current time (24-hour HH:MM:SS)
+- `\T` - Current time (12-hour HH:MM:SS)
+- `\@` - Current time (12-hour am/pm)
+- `\A` - Current time (24-hour HH:MM)
+- `\n` - Newline
+- `\$` - If the effective UID is 0, a `#`, otherwise a `$`
+- `\[` - Start a sequence of non-printing characters (useful for embedding terminal control sequences)
+- `\]` - End a sequence of non-printing characters
 
-For example, to set the prompt to show the username and current directory, you could use:
+### 2. Colors
+
+You can add colors to your prompt using ANSI escape codes. The format is:
 
 ```sh
-PS1='\u@\w: '
+\[\e[COLORm\]
 ```
 
-Adding this to your configuration file will make the change permanent.
-
-### Example with Customization
+For example, to set the color to red, you would use:
 
 ```sh
-PS1='\u@\h:\w\$ '
+\[\e[31m\]
 ```
 
-This example will set the prompt to display the username, hostname, and current working directory, followed by a dollar sign (`$`).
+Here are some common colors:
 
-# By modifying the `PS1` variable, you can personalize your shell prompt to suit your preferences.
+- `30` - Black
+- `31` - Red
+- `32` - Green
+- `33` - Yellow
+- `34` - Blue
+- `35` - Magenta
+- `36` - Cyan
+- `37` - White
+
+To reset the color back to default:
+
+```sh
+\[\e[0m\]
+```
+
+### Example with Colors
+
+Here’s an example that sets a colorful prompt showing the username in green, the hostname in blue, and the current directory in yellow:
+
+```sh
+PS1='\[\e[32m\]\u@\[\e[34m\]\h:\[\e[33m\]\w\[\e[0m\]\$ '
+```
+
+### 3. Conditional Content
+
+You can add conditional content to your prompt. For example, you might want to display different symbols or colors based on the user ID.
+
+Example: Show a red `#` for root and a green `$` for other users:
+
+```sh
+if [ "$UID" -eq 0 ]; then
+    PS1='\[\e[31m\]\u@\h:\w#\[\e[0m\] '
+else
+    PS1='\[\e[32m\]\u@\h:\w$\[\e[0m\] '
+fi
+```
+
+### 4. Examples for Different Shells
+
+#### Bash
+
+Add the following to your `~/.bashrc` file:
+
+```sh
+PS1='\[\e[32m\]\u@\[\e[34m\]\h:\[\e[33m\]\w\[\e[0m\]\$ '
+```
+
+#### Zsh
+
+Add the following to your `~/.zshrc` file:
+
+```sh
+PS1='%F{green}%n@%F{blue}%m:%F{yellow}%~%f$ '
+```
+
+#### Fish
+
+Fish shell uses a different approach. You can customize the prompt in the `~/.config/fish/config.fish` file:
+
+```sh
+function fish_prompt
+    set_color green
+    echo -n (whoami) '@'
+    set_color blue
+    echo -n (hostname -s) ':'
+    set_color yellow
+    echo -n (prompt_pwd)
+    set_color normal
+    echo -n '$ '
+end
+```
+
+### 5. Special Features in Prompts
+
+#### Git Branch
+
+To show the current Git branch in your prompt, you can use a function to fetch the branch name.
+
+**Bash Example:**
+
+1. Add the function to your `~/.bashrc`:
+
+    ```sh
+    function parse_git_branch {
+        git branch 2>/dev/null | grep '*' | sed 's/* //'
+    }
+
+    PS1='\u@\h:\w$(parse_git_branch)\$ '
+    ```
+
+2. Source the file to apply the changes:
+
+    ```sh
+    source ~/.bashrc
+    ```
+
+**Zsh Example:**
+
+1. Add the following to your `~/.zshrc`:
+
+    ```sh
+    autoload -Uz vcs_info
+    precmd() { vcs_info }
+    zstyle ':vcs_info:git:*' formats '(%b)'
+    PS1='%F{green}%n@%F{blue}%m:%F{yellow}%~%f %F{red}${vcs_info_msg_0_}%f$ '
+    ```
+
+2. Source the file to apply the changes:
+
+    ```sh
+    source ~/.zshrc
+    ```
+
+By customizing the `PS1` variable, you can make your prompt display exactly the information you need, in the colors you prefer, and in a format that helps improve your workflow.
