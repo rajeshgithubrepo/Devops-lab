@@ -77,4 +77,4 @@ PS1='\u@\h:\w\$ '
 
 This example will set the prompt to display the username, hostname, and current working directory, followed by a dollar sign (`$`).
 
-By modifying the `PS1` variable, you can personalize your shell prompt to suit your preferences.
+# By modifying the `PS1` variable, you can personalize your shell prompt to suit your preferences.
