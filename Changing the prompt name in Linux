@@ -78,9 +78,9 @@ fi
 
 Add the following to your `~/.bashrc` file:
 
-```sh
-PS1='\[\e[32m\]\u@\[\e[34m\]\h:\[\e[33m\]\w\[\e[0m\]\$ '
-```
+   ```sh
+   PS1='\[\e[32m\]\u@\[\e[34m\]\h:\[\e[33m\]\w\[\e[0m\]\$ '
+   ```
 
 #### Zsh
 
