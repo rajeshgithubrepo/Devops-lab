@@ -19,8 +19,8 @@ Vagrant.configure("2") do |config|
       db.vm.box = "ubuntu/jammy64"
       db.vm.network "private_network", ip: "192.168.50.5"
       db.vm.provider "virtualbox" do |vb|
-        vb.memory = "2048"
-        vb.cpus = 2
+        vb.memory = "1024"
+        vb.cpus = 1
       end
       db.vm.provision "shell", path: "scripts/setup_db.sh"
     end
