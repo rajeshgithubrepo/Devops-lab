@@ -11,8 +11,8 @@ echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
   https://pkg.jenkins.io/debian binary/ | sudo tee \
   /etc/apt/sources.list.d/jenkins.list > /dev/null
 sudo apt-get update -y
-sudo apt-get install jenkins
+sudo apt-get install jenkins -y
 sudo systemctl start jenkins
-sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+#sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 sudo systemctl status jenkins
 

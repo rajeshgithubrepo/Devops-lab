@@ -1,7 +1,7 @@
 Vagrant.configure("2") do |config|
   
   # Global configuration for all VMs
-  config.vm.synced_folder "./scripts", "~/vagrant_shared"
+  config.vm.synced_folder "./scripts", "/home/vagrant/Host_shared"
 
   # Define the first VM: Web Server
     config.vm.define "web" do |web|
@@ -11,11 +11,7 @@ Vagrant.configure("2") do |config|
         vb.memory = "2048"
         vb.cpus = 2
       end
-      #web.vm.provision "shell", path: "scripts/setup_web.sh"
-      #web.vm.provision "shell", path: "scripts/setup_docker.sh"
-      #web.vm.provision "shell", path: "scripts/setup_minikube.sh"
-      #web.vm.provision "shell", path: "scripts/setup_ansible.sh"
-      #web.vm.provision "shell", path: "scripts/setup_terraform.sh"
+      web.vm.provision "shell", path: "scripts/setup_web.sh"
     end
 
   # Define the second VM: Database Server
@@ -26,7 +22,7 @@ Vagrant.configure("2") do |config|
         vb.memory = "2048"
         vb.cpus = 2
       end
-      #db.vm.provision "shell", path: "scripts/setup_db.sh"
+      db.vm.provision "shell", path: "scripts/setup_db.sh"
     end
 
   # Define the third VM: Jenkins Server
@@ -38,5 +34,8 @@ Vagrant.configure("2") do |config|
         vb.cpus = 2
       end
       jenkins.vm.provision "shell", path: "scripts/setup_jenkins.sh"
+
+      # Forward port 8080 from the host to the VM
+      jenkins.vm.network "forwarded_port", guest: 8080, host: 8083
     end
 end
