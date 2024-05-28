@@ -7,3 +7,4 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 sudo apt update
 sudo apt install -y docker-ce
 sudo usermod -aG docker ${USER}
+sudo chmod 666 /var/run/docker.sock
