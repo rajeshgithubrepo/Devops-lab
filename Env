@@ -1,0 +1,7 @@
+echo %VAGRANT_HOME%
+
+Set the environment variable VAGRANT_HOME to specify the default location for Vagrant boxes. Use the following command:
+mathematica
+Copy code
+setx VAGRANT_HOME D:\
+This command sets the default Vagrant box location to "D:" drive. If you want to specify a specific directory within "D:", replace D:\ with the path to that directory.
